@@ -5,14 +5,14 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class SwitchTile extends StatefulWidget {
-  const SwitchTile(
+  SwitchTile(
       {super.key,
       required this.itemName,
       required this.isOn,
       required this.id});
 
   final String itemName;
-  final bool isOn;
+  bool isOn;
   final String id;
 
   @override
@@ -20,14 +20,16 @@ class SwitchTile extends StatefulWidget {
 }
 
 class _SwitchTileState extends State<SwitchTile> {
-  Future<void> turnOnDevice(String id) async {
-    final url = Uri.parse('http://192.168.56.1:3000/api/devices/$id/toggle-status');
-    final response = await http.post(url,
-        headers: {'Content-Type': 'application/json;charset=utf-8'},
-        body: jsonEncode({'id': id}));
-      print(response.body);
-    
-  }
+
+  Future<http.Response> switchDevice(String id) {
+    widget.isOn = !widget.isOn;
+  return http.put(
+    Uri.parse('http://192.168.56.1:3000/api/devices/$id/toggle-status'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode({'id':id}));
+}
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +52,8 @@ class _SwitchTileState extends State<SwitchTile> {
                 value: widget.isOn,
                 activeColor: Colors.blue,
                 onChanged: (value) {
+                  switchDevice(widget.id);
                   setState(() {
-                    turnOnDevice(widget.id);
-                    value == !widget.isOn;
                   });
                 })
           ],

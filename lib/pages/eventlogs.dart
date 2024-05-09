@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/components/Log.dart';
+import 'package:flutter_app_1/globals/globals.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -40,7 +41,7 @@ class _EventLogsPageState extends State<EventLogsPage> {
 
   Future<void> _fetchlogs() async {
     final response = await http
-        .get(Uri.parse('http://192.168.213.8:3000/api/notifications/'));
+        .get(Uri.parse('http://$databaseIp:3000/api/notifications/'));
     if (response.statusCode == 200) {
       final List<dynamic> json = jsonDecode(response.body);
       setState(() {

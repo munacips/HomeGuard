@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app_1/components/SwitchTile.dart';
+import 'package:flutter_app_1/globals/globals.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -46,7 +47,7 @@ class _DeviceManagementPageState extends State<DeviceManagementPage> {
 
   Future<void> _fetchDevices() async {
     final response =
-        await http.get(Uri.parse('http://192.168.56.1:3000/api/devices'));
+        await http.get(Uri.parse('http://$databaseIp:3000/api/devices'));
     if (response.statusCode == 200) {
       final List<dynamic> json = jsonDecode(response.body);
       setState(() {
