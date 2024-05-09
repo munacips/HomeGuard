@@ -13,6 +13,13 @@ class _EmergencyPageState extends State<EmergencyPage> {
     return Scaffold(
       appBar: AppBar(title: const Text("Emergency Page"),),
       body: GestureDetector(
+        onTap: () {
+          setState(() {
+            showDialog(context: context, builder: (BuildContext context){
+              return const AlertDialog(content: Text("Message sent to helpers"),);
+            });
+          });
+        },
         child: Center(
           child: Container(
             decoration: BoxDecoration(color: Colors.red, border: Border.all(color: Colors.black), borderRadius: BorderRadius.circular(10)),
